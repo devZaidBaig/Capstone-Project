@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 14
-  productGUID: 00000000000000000000000000000000
+  productGUID: fe2fd5202ce54444eb601ca483fff7df
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   defaultScreenOrientation: 3
@@ -687,7 +687,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: bb5b0c40-7011-4771-8a7f-e0e075e7fe40
-  projectName: 
+  projectName: Capstone Project
   organizationId: zaidbaig
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
