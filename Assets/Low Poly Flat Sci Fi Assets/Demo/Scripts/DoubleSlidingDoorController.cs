@@ -47,6 +47,8 @@ public class DoubleSlidingDoorController : MonoBehaviour {
 
 	private AudioSource audioSource;
 
+    public ParticleSystem laserEffect;
+
 
 	// Use this for initialization
 	void Start () {
@@ -70,28 +72,27 @@ public class DoubleSlidingDoorController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other) {
+	public void OpenDoor() {
 		
 		if (status != DoubleSlidingDoorStatus.Animating) {
 			if (status == DoubleSlidingDoorStatus.Closed) {
 				StartCoroutine ("OpenDoors");
+                laserEffect.Play();
+                gameObject.GetComponent<BoxCollider>().enabled = false;
 			}
 		}
-
-		if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer ("Characters")) {
-			objectsOnDoorArea++;
-		}
+		objectsOnDoorArea++;
+        Invoke("DoorClose", 10f);    
 	}
 
 	void OnTriggerStay(Collider other) {
 		
 	}
 
-	void OnTriggerExit(Collider other) {
-		//	Keep tracking of objects on the door
-		if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer ("Characters")) {
-			objectsOnDoorArea--;
-		}
+	public void DoorClose() {
+        //	Keep tracking of objects on the door
+        gameObject.GetComponent<BoxCollider>().enabled = true;
+        objectsOnDoorArea--;
 	}
 
 	IEnumerator OpenDoors () {
