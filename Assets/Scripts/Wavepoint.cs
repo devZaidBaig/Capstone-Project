@@ -28,17 +28,25 @@ public class Wavepoint : MonoBehaviour {
         {
             float distCovered = (Time.time - startTime) * speed;
             float fracJourney = distCovered / journeyLength;
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.GetComponent<SphereCollider>().enabled = false;
             Player.transform.position = Vector3.Lerp(Player.transform.position, gameObject.transform.position, fracJourney);
         }
 
         if(Player.transform.position == gameObject.transform.position)
         {
+            gameObject.GetComponent<MeshRenderer>().enabled = true;
+            gameObject.GetComponent<SphereCollider>().enabled = true;
             move = false;
             gameObject.SetActive(false);
 
             for(int i = 0; i < wavePointsToBeActivated.Count; i++)
             {
                 wavePointsToBeActivated[i].SetActive(true);
+            }
+
+            for (int i = 0; i < wavePointsToBeDeactivated.Count; i++)
+            {
                 wavePointsToBeDeactivated[i].SetActive(false);
             }
         }

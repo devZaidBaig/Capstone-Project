@@ -48,10 +48,15 @@ public class DoubleSlidingDoorController : MonoBehaviour {
 	private AudioSource audioSource;
 
     public ParticleSystem laserEffect;
+    public Manager manager;
+    public GameObject KeyCard;
+    public List<Transform> KeyCardSpawnPoints;
+    public GameObject wavepoint;
+    bool once = true;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		leftDoorClosedPosition	= new Vector3 (0f, 0f, 0f);
 		leftDoorOpenPosition	= new Vector3 (0f, 0f, slideDistance);
 
@@ -79,13 +84,46 @@ public class DoubleSlidingDoorController : MonoBehaviour {
 				StartCoroutine ("OpenDoors");
                 laserEffect.Play();
                 gameObject.GetComponent<BoxCollider>().enabled = false;
-			}
+                if (once)
+                {
+                    once = false;
+                    manager.obj("Click the panel/door to close the door");
+                }
+            }
 		}
 		objectsOnDoorArea++;
         Invoke("DoorClose", 10f);    
 	}
 
-	void OnTriggerStay(Collider other) {
+    public void OpenDoorWithKey()
+    {
+        if (manager.Key) {
+            if (status != DoubleSlidingDoorStatus.Animating)
+            {
+                if (status == DoubleSlidingDoorStatus.Closed)
+                {
+                    StartCoroutine("OpenDoors");
+                    laserEffect.Play();
+                    gameObject.GetComponent<BoxCollider>().enabled = false;
+                    wavepoint.SetActive(true);
+                }
+            }
+            objectsOnDoorArea++;
+            Invoke("DoorClose", 10f);
+        }
+        else if(manager.fileCount == 5)
+        {
+            KeyCard.SetActive(true);
+            KeyCard.transform.position = KeyCardSpawnPoints[Random.Range(0, KeyCardSpawnPoints.Count)].transform.position;
+            manager.obj("You need a Keycard!");
+        }
+        else
+        {
+           manager.obj("Find all the Files!");
+        }
+    }
+
+    void OnTriggerStay(Collider other) {
 		
 	}
 
